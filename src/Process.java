@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.Random;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 class Process implements Runnable {
@@ -13,6 +14,9 @@ class Process implements Runnable {
     private int[] inputVal;
     private int[] level;
 
+
+
+
     public Process(int index, int numberOfprocesses, int numberOfRounds, int inputVal) {
         this.index = index;
         this.numberOfprocesses = numberOfprocesses;
@@ -22,6 +26,11 @@ class Process implements Runnable {
         this.level = new int[numberOfprocesses];
         this.key = -1;
         this.numberOfRounds = numberOfRounds;
+        this.queue =  new ArrayBlockingQueue<>(numberOfprocesses);
+    }
+
+    public void putMessage(Message m){
+        queue.add(m);
     }
 
     public void processQueue() {
@@ -41,7 +50,7 @@ class Process implements Runnable {
                         key = rand.nextInt(numberOfRounds) + 1;
                     } else if (globalRoundNum != 0)
                         this.processQueue();
-                    Message toSend = new Message(this.inputVal, this.index, this.level, this.key);
+                    Message toSend = new Message(this.key,this.inputVal, this.index, this.level );
                     Thread.sleep(1000);
                     for (int i = 0; i < numberOfprocesses; i++)
                         Communication.sendMessage(toSend, i);

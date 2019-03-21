@@ -2,7 +2,7 @@ public class Message {
 
     private int[] inputVal;
     private int[] level;
-    private int index;
+    public int index;
     private int key;
 
     public Message(){}

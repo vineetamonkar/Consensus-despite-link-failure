@@ -23,7 +23,7 @@ public class Main {
             Process p = new Process(i, numberOfProcesses, numberOfRounds, inputVal[i]);
             processArr[i] = p;
         }
-            Communication channel = new Communication(processArr,messageDropNum);
+            Communication channel = new Communication(processArr,messageDropNum,numberOfProcesses);
             for (int i = 0; i < numberOfProcesses; i++) {
                 threadPool.submit(processArr[i]);
             }
@@ -34,6 +34,7 @@ public class Main {
               if (Round.threadCount.get() == 0) {
                   round++;
                   Thread.currentThread().sleep(1000);
+                  channel.resetMessage();
                   r.nextRound(numberOfProcesses, round);
                   System.out.println("Started round : " + (round));
               }
