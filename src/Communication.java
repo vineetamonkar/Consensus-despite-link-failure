@@ -17,7 +17,7 @@ this.messageArr = new int[numberOfProcesses];
 
 }
 
-public static void resetMessage(){
+public  void resetMessage(){
     Arrays.fill(messageArr, 1);
     }
 
@@ -26,10 +26,13 @@ public static void resetMessage(){
     public static void sendMessage(Message m,int receiver_id){
     int globalRoundNum = Round.getGlobalRoundNumber();
     int messageNum = messageArr[m.index] + ((globalRoundNum + (numberOfProcesses-1))*m.index) + (globalRoundNum*numberOfProcesses*(numberOfProcesses-1));
+    messageArr[m.index] = messageArr[m.index]+1;
     if(messageNum%messageDropNum!=0) {
         Process receiver = processArr[receiver_id];
         send(m, receiver);
     }
+    else
+        System.out.println("Message dropped number "+messageNum);
     }
 
 

@@ -1,9 +1,9 @@
 public class Message {
 
-    private int[] inputVal;
-    private int[] level;
+    public int[] inputVal;
+    public int[] level;
     public int index;
-    private int key;
+    public int key;
 
     public Message(){}
 
