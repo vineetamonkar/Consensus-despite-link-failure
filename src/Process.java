@@ -42,10 +42,10 @@ class Process implements Runnable {
            if(!this.queue.isEmpty()) {
                while (!this.queue.isEmpty()) {
                    Message m = this.queue.take();
-                   if(this.key==-1)
+                   if(this.key==-1 && m.key!=-1)
                        this.key = m.key;
                    for (int i = 0; i < numberOfprocesses; i++) {
-                       if (this.inputVal[i] == -1 & m.inputVal[i] != -1)
+                       if (this.inputVal[i] == -1 && m.inputVal[i] != -1)
                            this.inputVal[i] = m.inputVal[i];
                        if (this.level[i] < m.level[i])
                            this.level[i] = m.level[i];
@@ -71,9 +71,18 @@ class Process implements Runnable {
         public void processDecision()
         {
             System.out.println(this.index);
+            if(this.level[this.index]<this.key)
+            {
+                this.decision = 0;
+                this.decisionDone = true;
+                return;
+            }
+
             for (int i=0;i<numberOfprocesses;i++)
-            { if(this.inputVal[i]==0 || this.level[i]<this.key)
-                    this.decision = 0;}
+            {
+                if(this.inputVal[i]==0)
+                    this.decision = 0;
+            }
             if(this.decision == -1)
                 this.decision = 1;
                this.decisionDone = true;
@@ -93,7 +102,8 @@ class Process implements Runnable {
                 try {
                     if (globalRoundNum == 0 & index == 0) {
                         Random rand = new Random();
-                        key = rand.nextInt(numberOfRounds) + 1;
+//                        key = rand.nextInt(numberOfRounds-1) + 1;
+                        key = 11;
                     } else if (globalRoundNum != 0)
                         this.processQueue();
                     if(globalRoundNum == numberOfRounds-1)
