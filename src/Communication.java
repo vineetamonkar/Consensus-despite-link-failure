@@ -29,7 +29,7 @@ public  void resetMessage(){
 
     public static synchronized void sendMessage(Message m,int receiver_id, int senderIndex){
     int globalRoundNum = Round.getGlobalRoundNumber();
-    messageNum.set(messageArr.get(senderIndex) + ((globalRoundNum + (numberOfProcesses-1))*senderIndex) + (globalRoundNum*(numberOfProcesses-1)*(numberOfProcesses)));
+    messageNum.set(messageArr.get(senderIndex) + (((numberOfProcesses-1))*senderIndex) + (globalRoundNum*(numberOfProcesses-1)*(numberOfProcesses)));
     messageArr.getAndIncrement(senderIndex);
     System.out.println("generating Message number "+messageNum);
     if(messageNum.get()%messageDropNum != 0) {
