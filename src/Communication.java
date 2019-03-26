@@ -31,13 +31,12 @@ public  void resetMessage(){
     int globalRoundNum = Round.getGlobalRoundNumber();
     messageNum.set(messageArr.get(senderIndex) + (((numberOfProcesses-1))*senderIndex) + (globalRoundNum*(numberOfProcesses-1)*(numberOfProcesses)));
     messageArr.getAndIncrement(senderIndex);
-    System.out.println("generating Message number "+messageNum);
     if(messageNum.get()%messageDropNum != 0) {
         Process receiver = processArr[receiver_id];
         send(m, receiver);
     }
     else
-        System.out.println("");
+        System.out.println("Dropping Message Number : " + messageNum.get());
     }
 
 

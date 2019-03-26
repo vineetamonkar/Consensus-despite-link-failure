@@ -31,7 +31,7 @@ public class Main {
                     Thread.currentThread().sleep(1000);
                     channel.resetMessage();
                     r.nextRound(numberOfProcesses, round);
-//                    System.out.println("Started round : " + (round));
+                    System.out.println("Started round : " + (round));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
