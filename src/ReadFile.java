@@ -59,9 +59,7 @@ public class ReadFile {
         Iterator itr = inputFile.iterator();
         numberOfProcesses = new Integer(Integer.parseInt((String) itr.next()));
         String[] IDs = ((String) itr.next()).split(", *");
-        inputVal = Stream.of(IDs)
-                .mapToInt(Integer::parseInt)
-                .toArray();
+        inputVal = Stream.of(IDs).mapToInt(Integer::parseInt).toArray();
         numberOfRounds = new Integer(Integer.parseInt((String) itr.next()));
         messageDropNum = new Integer(Integer.parseInt((String) itr.next()));
     }

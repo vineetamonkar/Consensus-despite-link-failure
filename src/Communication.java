@@ -1,11 +1,14 @@
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicIntegerArray;
 
 public class Communication {
 
 private static Process[] processArr;
 private static int messageDropNum;
 private static int numberOfProcesses;
-private static int[] messageArr;
+private static AtomicIntegerArray messageArr;
+private static AtomicInteger messageNum = new AtomicInteger(0);
 
 
 public Communication(Process[] processArr, int messageDropNum, int numberOfProcesses)
@@ -13,26 +16,28 @@ public Communication(Process[] processArr, int messageDropNum, int numberOfProce
     this.processArr = processArr;
     this.messageDropNum = messageDropNum;
     this.numberOfProcesses = numberOfProcesses;
-    this.messageArr = new int[numberOfProcesses];
+    this.messageArr = new AtomicIntegerArray(numberOfProcesses);
 
 }
 
 public  void resetMessage(){
-    Arrays.fill(messageArr, 1);
+    for (int i = 0 ; i < messageArr.length(); i++)
+        messageArr.set(i, 1);
     }
 
 
 
-    public static void sendMessage(Message m,int receiver_id, int senderIndex){
+    public static synchronized void sendMessage(Message m,int receiver_id, int senderIndex){
     int globalRoundNum = Round.getGlobalRoundNumber();
-    int messageNum = messageArr[senderIndex] + ((globalRoundNum + (numberOfProcesses-1))*senderIndex) + (globalRoundNum*numberOfProcesses*(numberOfProcesses-1));
-    messageArr[senderIndex] = messageArr[senderIndex]+1;
-    if(messageNum%messageDropNum!=0) {
+    messageNum.set(messageArr.get(senderIndex) + ((globalRoundNum + (numberOfProcesses-1))*senderIndex) + (globalRoundNum*(numberOfProcesses-1)*(numberOfProcesses)));
+    messageArr.getAndIncrement(senderIndex);
+    System.out.println("generating Message number "+messageNum);
+    if(messageNum.get()%messageDropNum != 0) {
         Process receiver = processArr[receiver_id];
         send(m, receiver);
     }
     else
-        System.out.println("Message dropped number "+messageNum);
+        System.out.println("");
     }
 
 

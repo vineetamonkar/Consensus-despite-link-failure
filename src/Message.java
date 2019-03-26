@@ -1,12 +1,13 @@
-public class Message {
+import java.util.ArrayList;
+import java.util.List;
 
-    public int[] inputVal;
-    public int[] level;
-    public int key;
+public class Message<T> {
 
-    public Message(){}
+    public List<T> inputVal;
+    public List<T> level;
+    public T key;
 
-    public Message(int key, int[] inputVal, int[] level) {
+    public Message(T key, ArrayList<T> inputVal, ArrayList<T> level) {
 
         this.inputVal = inputVal;
         this.key = key;
