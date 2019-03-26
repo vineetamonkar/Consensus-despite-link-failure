@@ -8,12 +8,12 @@ private static int numberOfProcesses;
 private static int[] messageArr;
 
 
-public Communication(Process[] processArr,int messageDropNum,int numberOfProcesses)
+public Communication(Process[] processArr, int messageDropNum, int numberOfProcesses)
 {
-this.processArr = processArr;
-this.messageDropNum = messageDropNum;
-this.numberOfProcesses = numberOfProcesses;
-this.messageArr = new int[numberOfProcesses];
+    this.processArr = processArr;
+    this.messageDropNum = messageDropNum;
+    this.numberOfProcesses = numberOfProcesses;
+    this.messageArr = new int[numberOfProcesses];
 
 }
 
@@ -23,10 +23,10 @@ public  void resetMessage(){
 
 
 
-    public static void sendMessage(Message m,int receiver_id){
+    public static void sendMessage(Message m,int receiver_id, int senderIndex){
     int globalRoundNum = Round.getGlobalRoundNumber();
-    int messageNum = messageArr[m.index] + ((globalRoundNum + (numberOfProcesses-1))*m.index) + (globalRoundNum*numberOfProcesses*(numberOfProcesses-1));
-    messageArr[m.index] = messageArr[m.index]+1;
+    int messageNum = messageArr[senderIndex] + ((globalRoundNum + (numberOfProcesses-1))*senderIndex) + (globalRoundNum*numberOfProcesses*(numberOfProcesses-1));
+    messageArr[senderIndex] = messageArr[senderIndex]+1;
     if(messageNum%messageDropNum!=0) {
         Process receiver = processArr[receiver_id];
         send(m, receiver);

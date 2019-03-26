@@ -102,17 +102,19 @@ class Process implements Runnable {
                 try {
                     if (globalRoundNum == 0 & index == 0) {
                         Random rand = new Random();
-//                        key = rand.nextInt(numberOfRounds-1) + 1;
-                        key = 11;
-                    } else if (globalRoundNum != 0)
+                        key = rand.nextInt(numberOfRounds-1) + 1;
+                    }
+                    else if (globalRoundNum != 0) {
                         this.processQueue();
-                    if(globalRoundNum == numberOfRounds-1)
+                    }
+                    if(globalRoundNum == numberOfRounds-1) {
                         this.processDecision();
+                    }
                     else {
-                        Message toSend = new Message(this.key, this.inputVal, this.index, this.level);
+                        Message toSend = new Message(this.key, this.inputVal, this.level);
                         Thread.sleep(1000);
                         for (int i = 0; i < numberOfprocesses; i++)
-                            Communication.sendMessage(toSend, i);
+                            Communication.sendMessage(toSend, i, this.index);
                     }
 
                 } catch (InterruptedException e) {
